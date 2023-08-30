@@ -19,14 +19,29 @@
             <input id="Search-field" type="text" placeholder="Search..."
                 class="input input-bordered w-full max-w-xs bg-black text-white font-medium" />
             <button class="btn btn-accent" onclick="handleSearch ()">Search</button>
-        </section>
 
-        <!-- card section -->
-        <section>
-            <div id="phone-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
+            <!-- another search field
+            <input id="Search-field2" type="text" placeholder="Search..."
+                class="input input-bordered w-full max-w-xs font-medium" />
+            <button class="btn btn-primary" onclick="handleSearch2()">Primary</button>
+        </section> -->
+
+            <!-- Spinner  -->
+            <div id="loading-spinner" class="text-center my-4 mx-4 hidden ">
+                <span class="loading loading-spinner text-primary"></span>
             </div>
-        </section>
+
+            <!-- card section -->
+            <section>
+                <div id="phone-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                </div>
+                <!-- show all button -->
+                <div id="show-all-container" class="  justify-center items-center text-center mx-4 my-4 hidden">
+                    <button id="show-all" class="btn btn-active btn-accent" onclick="handleShowAll()">Show All</button>
+                </div>
+            </section>
     </main>
     <footer>
 

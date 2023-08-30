@@ -1,17 +1,29 @@
-const loadPhone = async (searchText) => {
+const loadPhone = async (searchText, isShowAll) => {
   const res = await fetch(
     `https://openapi.programming-hero.com/api/phones?search=${searchText}`
   );
   const data = await res.json();
   const phones = data.data;
   //   console.log(data.data);
-  displayPhones(phones);
+  displayPhones(phones, isShowAll);
 };
 
-const displayPhones = (phones) => {
+const displayPhones = (phones, isShowAll) => {
   //   console.log(phones);
   const phoneContainer = document.getElementById("phone-container");
   phoneContainer.textContent = "";
+  // disply only first 12 phones
+  const showAllContainer = document.getElementById("show-all-container");
+  if (phones.length > 12 && !isShowAll) {
+    showAllContainer.classList.remove("hidden");
+  } else {
+    showAllContainer.classList.add("hidden");
+  }
+
+  // disply 12 phone if not show all
+  if (!isShowAll) {
+    phones = phones.slice(0, 12);
+  }
   phones.forEach((element) => {
     console.log(element);
     /*
@@ -34,15 +46,42 @@ const displayPhones = (phones) => {
     // appendchild
     phoneContainer.appendChild(phoneCard);
   });
+
+  // hide spinner catching all data
+  loadingSpinner(false);
 };
 
-const handleSearch = () => {
+const handleSearch = (isShowAll) => {
+  loadingSpinner(true);
   const SearchField = document.getElementById("Search-field");
   // clear phone container  card before adding new  card
   const searchText = SearchField.value;
   SearchField.value = "";
 
-  loadPhone(searchText);
+  loadPhone(searchText, isShowAll);
+};
+// aonther search field functionality
+// const handleSearch2 = () => {
+//   loadingSpinner(true);
+//   const SearchField2 = document.getElementById("Search-field2");
+//   const searchText = SearchField2.value;
+//   SearchField2.value = "";
+//   loadPhone(searchText);
+// };
+
+// function for loading spinner
+const loadingSpinner = (showSpinner) => {
+  const loading = document.getElementById("loading-spinner");
+  if (showSpinner) {
+    loading.classList.remove("hidden");
+  } else {
+    loading.classList.add("hidden");
+  }
+};
+
+// handle show alll
+const handleShowAll = () => {
+  handleSearch(true);
 };
 
 // loadPhone();
