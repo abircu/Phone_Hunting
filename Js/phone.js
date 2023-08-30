@@ -1,4 +1,4 @@
-const loadPhone = async (searchText, isShowAll) => {
+const loadPhone = async (searchText = "13", isShowAll) => {
   const res = await fetch(
     `https://openapi.programming-hero.com/api/phones?search=${searchText}`
   );
@@ -25,13 +25,13 @@ const displayPhones = (phones, isShowAll) => {
     phones = phones.slice(0, 12);
   }
   phones.forEach((element) => {
-    console.log(element);
+    // console.log(element);
     /*
     1.create a div
 
     */
     const phoneCard = document.createElement("div");
-    phoneCard.classList = `card bg-gray-200 p-4 shadow-xl `;
+    phoneCard.classList = `card bg-base-100 p-4 shadow-xl `;
     phoneCard.innerHTML = `  <figure class="px-10 pt-10">
                         <img src="${element.image}" />
                     </figure>
@@ -40,7 +40,7 @@ const displayPhones = (phones, isShowAll) => {
                         <p>${element.slug}</p>
                         <h2 class="card-title">${element.brand}</h2>
                         <div class="card-actions">
-                            <button class="btn btn-primary w-[full]">Buy Now</button>
+                            <button onclick="handleShowDetails('${element.slug}')"  class="btn btn-primary w-[full]">Show Details</button>
                         </div>
                     </div>`;
     // appendchild
@@ -81,7 +81,43 @@ const loadingSpinner = (showSpinner) => {
 
 // handle show alll
 const handleShowAll = () => {
+  // console.log("clikess");
   handleSearch(true);
 };
 
-// loadPhone();
+//  show details
+const handleShowDetails = async (id) => {
+  // console.log("show details clicked", id);
+  // load individula or single phone data
+  const res = await fetch(
+    `https://openapi.programming-hero.com/api/phone/${id}`
+  );
+  const data = await res.json();
+  // console.log(data);
+  const element = data.data;
+  showPhoneDetails(element);
+};
+
+const showPhoneDetails = (element) => {
+  console.log(element);
+  const phoneName = document.getElementById("show-details-phone-name");
+  phoneName.innerText = element.name;
+  const showDetailsContainer = document.getElementById(
+    "show-all-details-container"
+  );
+
+  showDetailsContainer.innerHTML = ` 
+  <div class="flex justify-center items-center mt-2 mb-2"><img src="${element.image}" alt=""/></div>
+  <p class='text-xl font-medium text-start '> Storage: <span class="font-normal text-sm">${element.mainFeatures.storage}</span></p>
+  <p class='text-xl font-medium  text-start'> Disply Size: <span class="font-normal text-sm">${element.mainFeatures.displaySize}</span></p>
+  <p class='text-xl font-medium text-start'> Chip Set: <span class="font-normal text-sm">${element.mainFeatures.chipSet}</span></p>
+  <p class='text-xl font-medium text-start'> Memory: <span class="font-normal text-sm">${element.mainFeatures.memory}</span></p>
+  <p class='text-xl font-medium text-start'> Slug: <span class="font-normal text-sm">${element.slug}</span></p>
+  <p class='text-xl font-medium text-start'> Release Date: <span class="font-normal text-sm">${element.releaseDate}</span></p>
+  <p class='text-xl font-medium text-start'> Brand: <span class="font-normal text-sm">${element.brand}</span></p>
+  <p class='text-xl font-medium text-start'> GPS: <span class="font-normal text-sm">${element.others.GPS}</span></p>
+
+   `;
+  show_Details_modal.showModal();
+};
+loadPhone();
