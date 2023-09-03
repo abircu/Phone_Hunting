@@ -30,6 +30,7 @@ const displayPhones = (phones, isShowAll) => {
     1.create a div
 
     */
+    //  daynamic card
     const phoneCard = document.createElement("div");
     phoneCard.classList = `card bg-base-100 p-4 shadow-xl `;
     phoneCard.innerHTML = `  <figure class="px-10 pt-10">
